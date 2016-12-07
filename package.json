@@ -1,0 +1,9 @@
+{
+	"name":"local-outlier-factor",
+	"version":"1.0.0",
+	"private":true,
+	"dependencies":{
+		"csv":"^1.1.0",
+		"mathjs":"^3.8.0"
+	}
+}
