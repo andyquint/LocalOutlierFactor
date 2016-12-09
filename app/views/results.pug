@@ -11,6 +11,8 @@ block content
 			each row in results
 				tr
 					td= row['Name']
+					td= row['LOF']
 					- delete row['Name']
+					- delete row['LOF']
 					each  key in Object.keys(row)
 						td= row[key]
