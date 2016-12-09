@@ -2,3 +2,15 @@ extends layout
 
 block content
 	h1 Results for #{dataset_name}
+
+
+	if results.length > 0
+		table
+			each val in Object.keys(results[0])
+				th= val
+			each row in results
+				tr
+					td= row['Name']
+					- delete row['Name']
+					each  key in Object.keys(row)
+						td= row[key]

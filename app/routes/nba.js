@@ -18,8 +18,9 @@ router.get('/', function(req, res, next) {
 		var columnsToUse = [{'name':'MP'},{'name':'AST'},{'name':'TOV'}];
 
 		// Remove players who didn't contribute anything in these categories
+		// Remove players who didn't play a minimum of 100 minutes
 		var filtered_data = playerdata.filter(function(player) {
-			return player['MP'] > 0;
+			return player['MP'] > 200;
 		});
 
 		// Set MinPtsLB, MinPtsUB
@@ -43,10 +44,14 @@ router.get('/', function(req, res, next) {
 			player['Ast/Tov']=player['Assists']/player['Turnovers'];
 			return player;
 		});
+		results = results.splice(0,20);
 		console.log('For Minutes Played, Assists, Turnovers:');
-		console.log(results.splice(0,20).reverse());
+		console.log(results);
+		res.render('results', { 
+			dataset_name: 'NBA15' ,
+			results: results
+		});
 	});
-	res.render('results', { dataset_name: 'NBA15' });
 });
 
 module.exports = router;

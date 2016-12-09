@@ -18,8 +18,9 @@ router.get('/', function(req, res, next) {
 		var columnsToUse = [{'name':'P'},{'name':'PIM'},{'name':'+/-'}];
 
 		// Remove players who didn't contribute anything in these categories
+		// Remove players who didn't play in a minimum of 5 games
 		var filtered_data = playerdata.filter(function(player) {
-			return player['P']!=0 || player['PIM'] != 0 || player['+/-'] != 0;
+			return player['GP'] >= 10 && (player['P']!=0 || player['PIM'] != 0 || player['+/-'] != 0);
 		});
 		filtered_data = filtered_data.map(function(player) {
 			player['+/-'] = parseInt(player['+/-']);
@@ -47,10 +48,14 @@ router.get('/', function(req, res, next) {
 			player['+/-'] = filtered_data[index]['+/-'];
 			return player;
 		});
+		results = results.splice(0,20);
 		console.log('For Points, Penalty Minutes, +/-:');
-		console.log(results.splice(0,20).reverse());
+		console.log(results);
+		res.render('results', { 
+			dataset_name: 'NHL96' ,
+			results: results
+		});
 	});
-	res.render('results', { dataset_name: 'NHL96' });
 });
 
 module.exports = router;
