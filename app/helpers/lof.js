@@ -15,7 +15,7 @@ module.exports = function (data, attributes, minPtsLB, minPtsUB) {
 			object.minPts[minPts] = {};
 			// Get minPts-nearest neighbors from minPtsUB-nearest neighbors
 			object.minPts[minPts].neighbors = object.minptsUB_neighbors.slice(0,minPts);
-			var remaining = object.minptsUB_neighbors.slice(i,object.minptsUB_neighbors.length);
+			var remaining = object.minptsUB_neighbors.slice(minPts,object.minptsUB_neighbors.length);
 			for (var i = 0; i < remaining.length && remaining[i].distance == object.minPts[minPts].neighbors[object.minPts[minPts].neighbors.length-1].distance; i++) {
 				object.minPts[minPts].neighbors.push(remaining[i]);
 			}
@@ -29,8 +29,7 @@ module.exports = function (data, attributes, minPtsLB, minPtsUB) {
 			object.minPts[minPts].neighbors.forEach(function(neighbor) {
 				// Calculate reachability distance between each neighbor
 				// - Calculate the k-distance of the neighbor
-				var kdistance = Math.max.apply(Math, normalized[neighbor.index].minPts[minPts].neighbors.map(function(o){return o.distance}));
-				
+				var kdistance = normalized[neighbor.index].minPts[minPts].neighbors[normalized[neighbor.index].minPts[minPts].neighbors.length-1].distance;
 				var distance = neighbor.distance;
 				neighbor.reachDist = Math.max(kdistance, distance);
 			});

@@ -7,9 +7,6 @@ exports.normalize = function (dataset, columnsToNormalize) {
 	columnsToNormalize.forEach(function(column) {
 		var values = dataset.map(function(row) {
 			var value = row[column.name];
-			if (!Number.isInteger(value)) {
-				value = 0;
-			}
 			return value;
 		});
 		column.mean = stats.mean(values);
@@ -57,7 +54,7 @@ exports.getMinPtsUB_Neighbors = function(dataset, minPtsUB, columns) {
 		});
 		row1.minptsUB_neighbors = distances.slice(0,minPtsUB);
 		var remaining = distances.slice(minPtsUB,distances.length);
-		for (var i = 0; row1.minptsUB_neighbors[row1.minptsUB_neighbors.length-1].distance == remaining[i].distance; i++) {
+		for (var i = 0; i < remaining.length && row1.minptsUB_neighbors[row1.minptsUB_neighbors.length-1].distance == remaining[i].distance; i++) {
 			row1.minptsUB_neighbors.push(remaining[i]);
 		}
 	});
